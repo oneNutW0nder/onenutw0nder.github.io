@@ -30,7 +30,7 @@ twitter_username: oneNutW0nder
 github_username:  oneNutW0nder
 
 # Build settings
-theme: minima
+theme: jekyll-whiteglass
 plugins:
   - jekyll-feed
 
