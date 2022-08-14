@@ -1,4 +1,5 @@
 baseURL = "https://lostinthehex.net"
+# canonifyURLs = true
 title = "Lost in the Hex"
 #themesDir = "../.."
 theme = "m10c"
@@ -40,12 +41,12 @@ paginate = 8
     url = "https://www.linkedin.com/in/simon-buchheit-b45a80143/"
 
   # Default theme
-  #[params.style]
-  #  darkestColor = "#242930"
-  #  darkColor = "#353b43"
-  #  lightColor = "#afbac4"
-  #  lightestColor = "#ffffff"
-  #  primaryColor = "#57cc8a"
+  [params.style]
+   darkestColor = "#242930"
+   darkColor = "#353b43"
+   lightColor = "#afbac4"
+   lightestColor = "#ffffff"
+   primaryColor = "#57cc8a"
 
   # Green theme
   # [params.style]
@@ -56,9 +57,9 @@ paginate = 8
   #  primaryColor = "#dad865"
 
   # Red theme
-  [params.style]
-   darkestColor = "#d35050"
-   darkColor = "#212121"
-   lightColor = "#d6d6d6"
-   lightestColor = "#d3d3d3"
-   primaryColor = "#ffffff"
+  # [params.style]
+  #  darkestColor = "#d35050"
+  #  darkColor = "#212121"
+  #  lightColor = "#d6d6d6"
+  #  lightestColor = "#d3d3d3"
+  #  primaryColor = "#ffffff"
