@@ -2,7 +2,7 @@
 title: "2022 Corctf Pwn Babypwn"
 date: 2022-08-14T10:10:04-04:00
 tags: ["ctf", "pwn", "rop", "corctf"]
-draft: true
+draft: false
 ---
 
 # The Challenge
