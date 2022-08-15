@@ -1,7 +1,7 @@
 ---
 title: "2022 Corctf Pwn Babypwn"
 date: 2022-08-14T10:10:04-04:00
-tags: ["ctf", "pwn", "rop", "corctf"]
+tags: ["ctf", "pwn", "rop", "corctf", "ret2libc"]
 draft: false
 ---
 
@@ -15,9 +15,9 @@ Flag: `corctf{why_w4s_th4t_1n_rust???}`
 
 ## Overview
 
-This challenge is the first in a series of many binary exploitation challenges for the 2022 CorCTF. Unfortunately this was the only pwn challenge that I had the time to solve during the length of the CTF. 
+This challenge is the first in a series of many binary exploitation challenges for the 2022 CorCTF. Unfortunately this was the only pwn challenge that I had the time to solve during the CTF. 
 
-This challenge consists of the classic memory address leak allowing us to execute a _Ret2Libc_ attack. However, this challenge has been written in Rust which provides memory safe code through compile time checks. Luckily for us, som of these checks have been disabled by the use of `unsafe{}` which conveniently wraps all the challenge code.
+This challenge consists of the classic memory address leak allowing us to execute a _Ret2Libc_ attack. However, this challenge has been written in Rust which provides memory safe code through compile time checks. Luckily for us, some of these checks have been disabled by the use of `unsafe{}` which conveniently wraps all the challenge code.
 
 
 ## Getting started
@@ -79,7 +79,7 @@ fn main() {
 }
 ```
 
-At first I was worried about this challenge due to it being written in Rust but as soon as I saw the `unsafe{}` keyword wrapping the entire program I relaxed. As mentioned previously, Rust provides memory safety through its type system and compile time checks. However, a developer can use the [`unsafe`](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html) keyword to tell the compiler to skip some of these checks for a chunk of code. I do not know much about Rust other than the bits and pieces of I have read so all that you really need to understand for this challenge is that `unsafe{}` block allows the challenge author to call the _foreign_ Libc functions that we all know and love. Because these Libc functions are the usual culprits for memory corruption vulnerabilities we can look for them the same way we normally would. 
+At first I was worried about this challenge due to it being written in Rust but as soon as I saw the `unsafe{}` keyword wrapping the entire program I relaxed. As mentioned previously, Rust provides memory safety through its type system and compile time checks. However, a developer can use the [`unsafe`](https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html) keyword to tell the compiler to skip some of these checks for a chunk of code. I do not know much about Rust other than the bits and pieces of I have read so all that you really need to understand for this challenge is that the `unsafe{}` block allows the challenge author to call the _foreign_ Libc functions that we all know and love. Because these Libc functions are the usual culprits for memory corruption vulnerabilities, we can look for them the same way we normally would. 
 
 Reading through the source code, we see some information being printed to prompt the user for a name, greeting us with our name, prompting us for our favorite 🐸 emote, reading out answer, then printing some wonderful ASCII art. 
 
@@ -90,7 +90,7 @@ _Fig. 2 - Example program execution_
 
 Recall that _DEP_ and _PIE_ are enabled which means we need a way to leak a memory address to defeat _ASLR_ (_Address Space Layout Randomization_) and perform our _Ret2Libc_ exploit. 
 
-Lucky for us there is an improper usage of the `printf()` function that will allow us to leak address from the stack:
+Luckily for us, there is an improper usage of the `printf()` function that will allow us to leak addresses from the stack:
 
 ```rust
 // ...
@@ -101,7 +101,7 @@ libc::printf(text); // <-- Improper usage of 'printf()'
 // ...
 ```
 
-Exactly why this usage is exploitable is beyond the scope of this writeup but if you would like to read more about you can check this blog for a writeup on format string vulnerabilities or visit [here](https://ctf101.org/binary-exploitation/what-is-a-format-string-vulnerability/#:~:text=A%20format%20string%20vulnerability%20is,the%20format%20argument%20to%20printf%20.) for a quick explanation and example. 
+Exactly why this usage of `printf()` is exploitable is beyond the scope of this writeup but if you would like to read more about you can check this blog for a writeup on format string vulnerabilities or visit [here](https://ctf101.org/binary-exploitation/what-is-a-format-string-vulnerability/#:~:text=A%20format%20string%20vulnerability%20is,the%20format%20argument%20to%20printf%20.) for a quick explanation and example. 
 
 We can test this vulnerability by giving format specifiers instead of our name for the first input to the program:
 
